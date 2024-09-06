@@ -31,6 +31,8 @@ void set_unsafe_coper(uint32_t value,
   if (!ryzenadj) {
     if (strcmp(lang, "cz") == 0) {
       fprintf(stderr, "Nelze inicializovat RyzenAdj\n");
+    } else if(strcmp(lang, "kz") == 0)
+      fprintf(stderr,"RyzenAdj inicializaciyasi mumkin emes\n");
     } else {
       fprintf(stderr, "Unable to initialize RyzenAdj\n");
     }
@@ -41,6 +43,9 @@ void set_unsafe_coper(uint32_t value,
     if (strcmp(lang, "cz") == 0) {
       printf("Chyba při nastavování hodnoty coper pro jádro %d\n", value);
       fprintf(stderr, "Chyba při nastavování nebezpečné hodnoty coper\n");
+    } else if (strcmp(lang, "kz") == 0){
+      printf("jadro ushin coper menin ornity katesi %d\n", value);
+      fprintf(stderr, "jadro ushin coper menin ornity katesi\n");
     } else {
       printf("Error setting coper value for core %d\n", value);
       fprintf(stderr, "Error setting unsafe coper value\n");
@@ -69,6 +74,8 @@ float get_cpu_usage(int core_id,const char * lang) {
   if (!fp) {
     if (strcmp(lang, "cz") == 0) {
       perror("Nepodařilo se otevřít /proc/stat");
+    } else if(strcmp(lang, "kz") == 0){
+      perror("ashu mumkin emes /proc/stat");
     } else {
       perror("Failed to open /proc/stat");
     }
@@ -126,6 +133,12 @@ void print_usage(const char * prog_name, const char * lang) {
     fprintf(stderr, "Strategie: agresivní, konzervativní, výchozí, manuální\n");
     fprintf(stderr, "Interval vzorkování: mikrosekundy\n");
     fprintf(stderr, "Manuální body (pouze pro manuální strategii): [{bod: int, hodnota: int}, ...]\n");
+  } else if(strcmp(lang, "kz") == 0)){
+    fprintf(stderr, "Qoldanyluy: %s strategiya tilinin irikteu aralygn maximum_core_0 minimum_core_0 threshold_core_0 ... threshold_core_3 [manual_body_core_0] ... [manual_body_core_3]\n", prog_name);
+    fprintf(stderr, "Til: agilsin usin 'en', cex usin 'cz'\n");
+    fprintf(stderr, "Strategiya: agressivti, konservativti, adepki, qolmen\n");
+    fprintf(stderr, "Tandau aralygi: mikrosekund\n");
+    fprintf(stderr, "Qolmen nukter (tek qolmen strategiya usin): [{point: int, value: int}, ...]\n");
   } else {
     fprintf(stderr, "Usage: %s language strategy sample_interval core_0_maximum_value core_0_minimum_value core_0_threshold ... core_3_threshold [manual_points_core_0] ... [manual_points_core_3]\n", prog_name);
     fprintf(stderr, "Language: 'en' for English, 'cz' for Czech\n");
@@ -166,6 +179,8 @@ int parse_manual_points(const char * json_str, ManualPoint * manual_points, int 
   if (point_count >= max_points) {
     if(strcmp(lang, "cz") == 0) {
       fprintf(stderr, "Varování: Překročen maximální počet manuálních bodů, bude použito pouze %d bodů\n", max_points);
+    } else if(strcmp(lang, "kz") == 0){
+      fprintf(stderr, "Eskeertu: Qolmen berilgen nukterdin maksimaldn sann asnp ketti, tek %d ūuan paydalanylady\n", max_points);
     } else {
       fprintf(stderr, "Warning: Max manual points exceeded, only %d points will be used\n", max_points);
     }
@@ -185,7 +200,7 @@ int main(int argc, char * argv[]) {
 
   // language
   const char * lang = argv[1];
-  if (strcmp(lang, "cz") != 0 && strcmp(lang, "en") != 0) {
+  if (strcmp(lang, "cz") != 0 && strcmp(lang, "en") != 0 && strcmp(lang, "kz" != 0)) {
     fprintf(stderr, "Invalid language selection. Use 'en' for English or 'cz' for Czech.\n");
     exit(EXIT_FAILURE);
   }
@@ -208,6 +223,8 @@ int main(int argc, char * argv[]) {
   if (sample_interval <= 0) {
     if (strcmp(lang, "cz") == 0) {
       fprintf(stderr, "Neplatný interval vzorkování: %d\n", sample_interval);
+    } else if(strcmp(lang, "kz") == 0){
+      fprintf(stderr, "Jaramsyz irikteu aralygn: %d\n", sample_interval);
     } else {
       fprintf(stderr, "Invalid sample interval: %d\n", sample_interval);
     }
@@ -226,6 +243,8 @@ int main(int argc, char * argv[]) {
     if (max_curve_optimizer_steps[i] < 0 || min_curve_optimizer_steps[i] < 0 || thresholds[i] < 0.0 || thresholds[i] > 100.0) {
       if (strcmp(lang, "cz") == 0) {
         fprintf(stderr, "Neplatné vstupní hodnoty\n");
+      } else if (strcmp(lang, "kz") == 0){
+        fprintf(stderr, "Jaramsyz kiris manderi\n");
       } else {
         fprintf(stderr, "Invalid input values\n");
       }
@@ -317,7 +336,11 @@ int main(int argc, char * argv[]) {
       if (strcmp(lang, "cz") == 0) {
         printf("Fyzické jádro %d: Průměrné zatížení: %.2f%%, Krok optimalizátoru křivky: %d, Coper hodnota: %d\n",
           i + 1, average_load, curve_optimizer_step, coper_value);
-      } else {
+      } else if(strcmp(lang, "kz") == 0){
+        printf("Fizikalyq negizgi %d: Ortasha jukte: %.2f%%, Qisyq oqtaylandyry qadamn: %d, Mis máni: %d\n",
+          i + 1, average_load, curve_optimizer_step, coper_value);
+      } 
+      else {
         printf("Physical Core %d: Average Load: %.2f%%, Curve Optimizer Step: %d, Coper Value: %d\n",
           i + 1, average_load, curve_optimizer_step, coper_value);
       }
