@@ -135,7 +135,7 @@ void print_usage(const char * prog_name, const char * lang) {
     fprintf(stderr, "Manuální body (pouze pro manuální strategii): [{bod: int, hodnota: int}, ...]\n");
   } else if(strcmp(lang, "kz") == 0)){
     fprintf(stderr, "Qoldanyluy: %s strategiya tilinin irikteu aralygn maximum_core_0 minimum_core_0 threshold_core_0 ... threshold_core_3 [manual_body_core_0] ... [manual_body_core_3]\n", prog_name);
-    fprintf(stderr, "Til: agilsin usin 'en', cex usin 'cz', kazaksha\n");
+    fprintf(stderr, "Til: agilsin usin 'en', cex usin 'cz', 'kz' kazaksha\n");
     fprintf(stderr, "Strategiya: agressivti, konservativti, adepki, qolmen\n");
     fprintf(stderr, "Tandau aralygi: mikrosekund\n");
     fprintf(stderr, "Qolmen nukter (tek qolmen strategiya usin): [{point: int, value: int}, ...]\n");
