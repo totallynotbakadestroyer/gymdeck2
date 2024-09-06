@@ -44,8 +44,8 @@ void set_unsafe_coper(uint32_t value,
       printf("Chyba při nastavování hodnoty coper pro jádro %d\n", value);
       fprintf(stderr, "Chyba při nastavování nebezpečné hodnoty coper\n");
     } else if (strcmp(lang, "kz") == 0){
-      printf("jadro ushin coper menin ornity katesi %d\n", value);
-      fprintf(stderr, "jadro ushin coper menin ornity katesi\n");
+      printf("Jadro ushin coper menin ornity katesi %d\n", value);
+      fprintf(stderr, "Jadro ushin coper menin ornity katesi\n");
     } else {
       printf("Error setting coper value for core %d\n", value);
       fprintf(stderr, "Error setting unsafe coper value\n");
@@ -75,7 +75,7 @@ float get_cpu_usage(int core_id,const char * lang) {
     if (strcmp(lang, "cz") == 0) {
       perror("Nepodařilo se otevřít /proc/stat");
     } else if(strcmp(lang, "kz") == 0){
-      perror("ashu mumkin emes /proc/stat");
+      perror("Ashu mumkin emes /proc/stat");
     } else {
       perror("Failed to open /proc/stat");
     }
@@ -135,7 +135,7 @@ void print_usage(const char * prog_name, const char * lang) {
     fprintf(stderr, "Manuální body (pouze pro manuální strategii): [{bod: int, hodnota: int}, ...]\n");
   } else if(strcmp(lang, "kz") == 0)){
     fprintf(stderr, "Qoldanyluy: %s strategiya tilinin irikteu aralygn maximum_core_0 minimum_core_0 threshold_core_0 ... threshold_core_3 [manual_body_core_0] ... [manual_body_core_3]\n", prog_name);
-    fprintf(stderr, "Til: agilsin usin 'en', cex usin 'cz'\n");
+    fprintf(stderr, "Til: agilsin usin 'en', cex usin 'cz', kazaksha\n");
     fprintf(stderr, "Strategiya: agressivti, konservativti, adepki, qolmen\n");
     fprintf(stderr, "Tandau aralygi: mikrosekund\n");
     fprintf(stderr, "Qolmen nukter (tek qolmen strategiya usin): [{point: int, value: int}, ...]\n");
@@ -201,7 +201,7 @@ int main(int argc, char * argv[]) {
   // language
   const char * lang = argv[1];
   if (strcmp(lang, "cz") != 0 && strcmp(lang, "en") != 0 && strcmp(lang, "kz" != 0)) {
-    fprintf(stderr, "Invalid language selection. Use 'en' for English or 'cz' for Czech.\n");
+    fprintf(stderr, "Invalid language selection. Use 'en' for English, 'cz' for Czech, or 'kz' for kazakh.\n");
     exit(EXIT_FAILURE);
   }
 
@@ -337,7 +337,7 @@ int main(int argc, char * argv[]) {
         printf("Fyzické jádro %d: Průměrné zatížení: %.2f%%, Krok optimalizátoru křivky: %d, Coper hodnota: %d\n",
           i + 1, average_load, curve_optimizer_step, coper_value);
       } else if(strcmp(lang, "kz") == 0){
-        printf("Fizikalyq negizgi %d: Ortasha jukte: %.2f%%, Qisyq oqtaylandyry qadamn: %d, Mis máni: %d\n",
+        printf("Fizikalyq negizgi %d: Ortasha jukte: %.2f%%, Qisyq oqtaylandyry qadamn: %d, Coper máni: %d\n",
           i + 1, average_load, curve_optimizer_step, coper_value);
       } 
       else {
